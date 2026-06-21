@@ -40,18 +40,18 @@ export function LandingSection({
   const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.2, 0.85, 0.85, 0.2]);
 
   return (
-    <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden px-[clamp(24px,6vw,110px)] py-24">
-      {/* travelling device */}
+    <section ref={ref} className="relative flex min-h-screen items-center px-[clamp(24px,6vw,110px)] py-24">
+      {/* travelling device (overlays backgrounds, sits under all text) */}
       <motion.div
         aria-hidden
         style={{ x, y, rotate, opacity, width: size }}
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-[#c6ccd6]"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-[#c6ccd6]"
       >
         <Device />
       </motion.div>
 
       {/* content */}
-      <div className="relative z-10 max-w-2xl">
+      <div className="relative z-20 max-w-2xl">
         <div className="flex items-center gap-3">
           <span className="pixel text-[10px] text-danger">{index}</span>
           <span className="kicker">{kicker}</span>

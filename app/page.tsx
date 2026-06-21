@@ -9,7 +9,7 @@ import { PixelDrone, PixelCamera, PixelRoomba, PixelRobotArm } from "@/component
 
 export default function Landing() {
   return (
-    <main className="scanlines relative bg-shell">
+    <main className="scanlines relative bg-shell" style={{ overflowX: "clip" }}>
       <PixelField density={1} />
 
       {/* nav */}
@@ -76,7 +76,7 @@ export default function Landing() {
 
       <CTA />
 
-      <footer className="relative z-10 flex items-center justify-between border-t border-white/10 px-[clamp(20px,5vw,80px)] py-8">
+      <footer className="relative z-20 flex items-center justify-between border-t border-white/10 bg-shell px-[clamp(20px,5vw,80px)] py-8">
         <span className="pixel text-[10px] text-white/60">ROBOSHIELD</span>
         <span className="kicker text-white/30">behavior firewall // 2026</span>
       </footer>
@@ -92,16 +92,16 @@ function Hero() {
   const droneOpacity = useTransform(scrollYProgress, [0, 0.8], [0.9, 0]);
 
   return (
-    <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden px-[clamp(24px,6vw,110px)]">
+    <section ref={ref} className="relative flex min-h-screen items-center px-[clamp(24px,6vw,110px)]">
       <motion.div
         aria-hidden
         style={{ y: droneY, scale: droneScale, opacity: droneOpacity }}
-        className="pointer-events-none absolute right-[2%] top-1/2 z-0 w-[min(56vw,640px)] -translate-y-1/2 text-[#c6ccd6]"
+        className="pointer-events-none absolute right-[2%] top-1/2 z-10 w-[min(56vw,640px)] -translate-y-1/2 text-[#c6ccd6]"
       >
         <PixelDrone />
       </motion.div>
 
-      <div className="relative z-10 max-w-3xl">
+      <div className="relative z-20 max-w-3xl">
         <div className="kicker">behavior firewall // physical machines</div>
         <h1 className="hpixel mt-6 text-[clamp(2rem,7vw,5.5rem)] leading-[1.1] text-white">
           ROBO<span className="text-danger">SHIELD</span>
@@ -143,16 +143,16 @@ function CTA() {
   const rotate = useTransform(scrollYProgress, [0, 1], [8, -8]);
 
   return (
-    <section ref={ref} className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 text-center">
+    <section ref={ref} className="relative flex min-h-screen items-center justify-center px-6 text-center">
       <motion.div
         aria-hidden
         style={{ x, rotate }}
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-[min(50vw,560px)] -translate-x-1/2 -translate-y-1/2 text-[#c6ccd6] opacity-30"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-[min(50vw,560px)] -translate-x-1/2 -translate-y-1/2 text-[#c6ccd6] opacity-30"
       >
         <PixelRobotArm />
       </motion.div>
 
-      <div className="relative z-10">
+      <div className="relative z-20">
         <div className="kicker">live demo</div>
         <h2 className="hterm mt-5 text-[clamp(2.4rem,7vw,6rem)] uppercase text-white">See it block an attack.</h2>
         <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-white/60">
