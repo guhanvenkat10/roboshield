@@ -32,6 +32,9 @@ export default function LandingPage() {
           <a href="#threats" className="hidden hover:text-white sm:block">
             Threats
           </a>
+          <Link href="/present" className="hidden hover:text-white sm:block">
+            Pitch deck
+          </Link>
           <Link
             href="/dashboard"
             className="rounded-lg bg-signal-500 px-3.5 py-1.5 font-semibold text-ink-950 transition hover:bg-signal-400"
