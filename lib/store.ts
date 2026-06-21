@@ -61,10 +61,12 @@ interface RoboShieldState {
 let incidentCounter = 0;
 
 function seedHistory(): RiskPoint[] {
+  // Deterministic so server and client render identically (no hydration drift)
+  // and the idle chart looks the same every run.
   const now = Date.now();
   return Array.from({ length: 24 }, (_, i) => ({
     t: now - (24 - i) * 1000,
-    v: 6 + Math.round(Math.sin(i / 2) * 3 + Math.random() * 4),
+    v: 8 + Math.round(Math.sin(i / 2) * 3 + Math.cos(i / 3) * 2),
   }));
 }
 

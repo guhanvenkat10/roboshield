@@ -77,19 +77,26 @@ class SerialBridge {
   }
 
   async disconnect() {
+    // Cancel the reader first: this unblocks the pending read() in readLoop,
+    // which then releases its own lock in its finally block (single owner).
     try {
-      this.reader?.cancel().catch(() => {});
-      this.reader?.releaseLock();
-      this.writer?.releaseLock();
+      await this.reader?.cancel();
+    } catch {
+      /* already gone */
+    }
+    try {
+      await this.writer?.close(); // close() also releases the writer lock
+    } catch {
+      /* already gone */
+    }
+    this.writer = null;
+    try {
       await this.port?.close();
     } catch {
-      /* ignore */
-    } finally {
-      this.port = null;
-      this.writer = null;
-      this.reader = null;
-      this.setConnected(false);
+      /* already gone */
     }
+    this.port = null;
+    this.setConnected(false);
   }
 
   /** Send a single protocol command (newline is appended). No-op if disconnected. */
@@ -104,11 +111,13 @@ class SerialBridge {
   }
 
   private async readLoop() {
+    const reader = this.port.readable.getReader();
+    this.reader = reader;
+    const decoder = new TextDecoder();
+    this.readBuffer = "";
     try {
-      this.reader = this.port.readable.getReader();
-      const decoder = new TextDecoder();
-      while (this.reader) {
-        const { value, done } = await this.reader.read();
+      for (;;) {
+        const { value, done } = await reader.read();
         if (done) break;
         this.readBuffer += decoder.decode(value, { stream: true });
         let nl: number;
@@ -121,6 +130,12 @@ class SerialBridge {
     } catch {
       /* reader cancelled / device gone */
     } finally {
+      try {
+        reader.releaseLock();
+      } catch {
+        /* already released */
+      }
+      this.reader = null;
       this.setConnected(false);
     }
   }

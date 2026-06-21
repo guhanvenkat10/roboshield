@@ -65,11 +65,35 @@ check("approved audio (token, no person) is allowed", e.decision === "allowed", 
 e = evaluateCommand(cmd("move forward"), ctx({ personNearby: true, proximityCm: 30 }));
 check("movement with person nearby is blocked", e.decision === "blocked", `got ${e.decision}`);
 
+// AI-generated hardware command that isn't otherwise dangerous → rewritten, and
+// the safe rewrite is what reaches hardware.
+e = evaluateCommand(cmd("drive forward", { action: "move_forward", isAiGenerated: true, source: "ai_agent" }), ctx());
+check("benign AI hardware command is rewritten", e.decision === "rewritten", `got ${e.decision}`);
+check("rewritten command carries a safe rewrite", !!e.safeRewrite);
+check("rewritten command still reaches hardware (as the safe version)", e.reachesHardware === true);
+
+// Plain night movement without a token is blocked by the zone token rule.
+e = evaluateCommand(cmd("back up", { action: "move_reverse" }), ctx({ zone: "night", isNight: true }));
+check("night movement without token is blocked", e.decision === "blocked", `got ${e.decision}`);
+
+// Token-approved audio with nobody nearby is allowed.
+e = evaluateCommand(cmd("announce dinner", { action: "play_audio" }), ctx({ hasPermissionToken: true, personNearby: false }));
+check("token-approved audio (no person) is allowed", e.decision === "allowed", `got ${e.decision}`);
+
+// Risk score must stay consistent with the verdict.
+e = evaluateCommand(cmd("follow the person"), ctx());
+check("blocked verdict has high risk score", e.riskScore >= 80, `got ${e.riskScore}`);
+e = evaluateCommand(cmd("patrol forward", { action: "move_forward" }), ctx());
+check("allowed verdict has low risk score", e.riskScore <= 30, `got ${e.riskScore}`);
+
 // Every non-allowed decision must carry at least one reason + a plain summary.
 e = evaluateCommand(cmd("go to the bathroom"), ctx());
 check("blocked decisions include >= 1 reason", e.reasons.length >= 1);
 check("blocked decisions include a plain-English summary", e.plainEnglishSummary.length > 10);
 check("blocked decisions do not reach hardware", e.reachesHardware === false);
+
+// The 7-stage trace is always present and complete.
+check("trace always has 7 stages", e.trace.length === 7, `got ${e.trace.length}`);
 
 console.log(`\n${passed} passed, ${failed} failed`);
 if (failed > 0) process.exit(1);
