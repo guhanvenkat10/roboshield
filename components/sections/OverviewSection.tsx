@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock, RotateCcw, ShieldX } from "lucide-react";
+import { Lock, OctagonX, RotateCcw } from "lucide-react";
 import { useRoboShield } from "@/lib/store";
 import { RobotVisual } from "../RobotVisual";
 import { RiskChart } from "../RiskChart";
@@ -13,98 +13,85 @@ export function OverviewSection({ onJump }: { onJump: (tab: any) => void }) {
   const status = useRoboShield((s) => s.status);
   const context = useRoboShield((s) => s.context);
   const riskHistory = useRoboShield((s) => s.riskHistory);
-  const totalEvaluated = useRoboShield((s) => s.totalEvaluated);
   const totalBlocked = useRoboShield((s) => s.totalBlocked);
   const lockdown = useRoboShield((s) => s.lockdown);
   const resetDemo = useRoboShield((s) => s.resetDemo);
+  const emergencyStop = useRoboShield((s) => s.emergencyStop);
 
   const currentRisk = riskHistory[riskHistory.length - 1]?.v ?? 0;
+  const riskColor = currentRisk >= 70 ? "text-danger" : currentRisk >= 40 ? "text-warn" : "text-safe";
 
   return (
-    <div className="space-y-5">
-      {/* Top row: robot + risk + stats */}
-      <div className="grid gap-5 lg:grid-cols-3">
-        {/* Robot + controls */}
-        <Card className="flex flex-col">
-          <div className="text-xs font-semibold uppercase tracking-wider text-white/40">Protected Device</div>
-          <RobotVisual status={status} personNearby={context.personNearby} />
+    <div className="grid gap-5 lg:grid-cols-12">
+      {/* Left rail: device at a glance */}
+      <div className="space-y-5 lg:col-span-4">
+        <Card>
+          <div className="kicker mb-3 text-[11px]">device</div>
+          <div className="mx-auto w-2/3">
+            <RobotVisual status={status} personNearby={context.personNearby} />
+          </div>
           <div className="mt-2 text-center">
-            <div className="text-sm font-medium text-white/80">Demo Rover · {context.zone} zone</div>
-            <div className="text-xs text-white/40">Mission: {context.currentMission}</div>
+            <div className="font-term text-lg uppercase tracking-wide text-white">Demo Rover</div>
+            <div className="mt-0.5 text-xs text-white/40">{context.currentMission}</div>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            <button
-              onClick={lockdown}
-              disabled={status === "lockdown"}
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-warn/40 bg-warn/10 px-3 py-2.5 text-sm font-semibold text-warn transition hover:bg-warn/15 disabled:opacity-40"
-            >
-              <Lock className="h-4 w-4" /> Lockdown
-            </button>
-            <button
-              onClick={resetDemo}
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/12 px-3 py-2.5 text-sm font-semibold text-white/70 transition hover:bg-white/5"
-            >
-              <RotateCcw className="h-4 w-4" /> Reset
-            </button>
-          </div>
-        </Card>
 
-        {/* Risk + stats */}
-        <Card className="lg:col-span-2 flex flex-col">
-          <div className="flex items-start justify-between">
+          {/* risk readout */}
+          <div className="mt-4 flex items-end justify-between border-t border-white/8 pt-4">
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-white/40">Risk Score</div>
-              <div className="mt-1 text-4xl font-semibold tracking-tight text-white">
+              <div className="kicker text-[10px]">risk</div>
+              <div className={`font-term text-4xl leading-none ${riskColor}`}>
                 <AnimatedNumber value={currentRisk} suffix="%" />
               </div>
             </div>
-            <div className="flex gap-2">
-              <Stat label="Evaluated" value={totalEvaluated} />
-              <Stat label="Blocked" value={totalBlocked} tone="danger" />
+            <div className="h-12 w-32">
+              <RiskChart data={riskHistory} height={48} />
             </div>
           </div>
-          <div className="mt-3 h-[150px] flex-1">
-            <RiskChart data={riskHistory} height={150} />
-          </div>
-          <div className="mt-2 flex items-center justify-between text-[11px] text-white/35">
-            <span>Live command risk over time</span>
-            {status === "lockdown" && (
-              <span className="inline-flex items-center gap-1 text-warn">
-                <ShieldX className="h-3 w-3" /> Isolation mode active, only emergency stop passes
-              </span>
-            )}
-          </div>
-        </Card>
-      </div>
+          <div className="mt-1 text-right text-[11px] text-white/35">{totalBlocked} blocked this session</div>
 
-      {/* Second row: sensors + hardware */}
-      <div className="grid gap-5 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <ContextControls />
-          <p className="mt-3 text-[11px] leading-relaxed text-white/35">
-            These are simulated sensor inputs. Flip them to stage a situation, e.g. turn on “Person nearby”
-            then try a speaker command in the monitor below. Want guided scenarios?{" "}
-            <button onClick={() => onJump("demo")} className="text-signal-400 hover:underline">
-              Open the Demo Lab →
+          {/* controls */}
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <button
+              onClick={lockdown}
+              disabled={status === "lockdown"}
+              className="flex items-center justify-center gap-1.5 rounded-md border border-warn/40 bg-warn/10 px-2 py-2 text-xs font-semibold uppercase tracking-wide text-warn transition hover:bg-warn/15 disabled:opacity-40"
+            >
+              <Lock className="h-3.5 w-3.5" /> Lock
             </button>
-          </p>
+            <button
+              onClick={emergencyStop}
+              className="flex items-center justify-center gap-1.5 rounded-md border border-danger/40 bg-danger/10 px-2 py-2 text-xs font-semibold uppercase tracking-wide text-danger transition hover:bg-danger/15"
+            >
+              <OctagonX className="h-3.5 w-3.5" /> Stop
+            </button>
+            <button
+              onClick={resetDemo}
+              className="flex items-center justify-center gap-1.5 rounded-md border border-white/15 px-2 py-2 text-xs font-semibold uppercase tracking-wide text-white/70 transition hover:bg-white/5"
+            >
+              <RotateCcw className="h-3.5 w-3.5" /> Reset
+            </button>
+          </div>
         </Card>
+
         <HardwareBridge />
       </div>
 
-      {/* Command monitor */}
-      <CommandMonitor />
-    </div>
-  );
-}
+      {/* Right: sensors + the command monitor as the focal point */}
+      <div className="space-y-5 lg:col-span-8">
+        <Card>
+          <ContextControls />
+          <p className="mt-3 text-[11px] leading-relaxed text-white/35">
+            Simulated sensor inputs. Flip one, then send a command below to watch the verdict change. Prefer
+            guided runs?{" "}
+            <button onClick={() => onJump("demo")} className="text-danger hover:underline">
+              Open the Demo Lab
+            </button>
+            .
+          </p>
+        </Card>
 
-function Stat({ label, value, tone }: { label: string; value: number; tone?: "danger" }) {
-  return (
-    <div className="rounded-md border border-white/8 bg-white/[0.02] px-3 py-2 text-center">
-      <div className={tone === "danger" ? "text-xl font-semibold text-danger" : "text-xl font-semibold text-white"}>
-        {value}
+        <CommandMonitor />
       </div>
-      <div className="text-[10px] uppercase tracking-wide text-white/40">{label}</div>
     </div>
   );
 }
