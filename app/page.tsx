@@ -1,168 +1,171 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Cpu, Eye, Lock, Radio, ShieldCheck, Volume2 } from "lucide-react";
-import { Logo } from "@/components/primitives";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { PixelField } from "@/components/cyber/PixelField";
+import { LandingSection } from "@/components/cyber/LandingSection";
+import { PixelDrone, PixelCamera, PixelRoomba, PixelRobotArm } from "@/components/cyber/devices";
 
-const THREATS = [
-  { icon: Volume2, label: "Hijacked speaker", desc: "plays threats or impersonates a voice" },
-  { icon: Eye, label: "Silent camera", desc: "records inside private rooms" },
-  { icon: Radio, label: "Remote takeover", desc: "drives the robot at 3 a.m." },
-  { icon: Cpu, label: "Rogue AI agent", desc: "issues its own hardware commands" },
-];
-
-const fade = {
-  hidden: { opacity: 0, y: 14 },
-  show: (i: number) => ({ opacity: 1, y: 0, transition: { delay: 0.05 * i, duration: 0.5 } }),
-};
-
-export default function LandingPage() {
+export default function Landing() {
   return (
-    <main className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-dots opacity-40" />
+    <main className="scanlines relative bg-shell">
+      <PixelField density={1} />
 
-      {/* Nav */}
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <Logo />
-        <nav className="flex items-center gap-6 text-sm text-white/60">
-          <a href="#how" className="hidden hover:text-white sm:block">
-            How it works
-          </a>
-          <a href="#threats" className="hidden hover:text-white sm:block">
-            Threats
-          </a>
-          <Link href="/present" className="hidden hover:text-white sm:block">
-            Pitch deck
-          </Link>
-          <Link
-            href="/dashboard"
-            className="rounded-lg bg-signal-500 px-3.5 py-1.5 font-semibold text-ink-950 transition hover:bg-signal-400"
-          >
-            Open Console
-          </Link>
-        </nav>
+      {/* nav */}
+      <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[clamp(20px,5vw,80px)] py-4 backdrop-blur-sm">
+        <Link href="/" className="flex items-center gap-2">
+          <span className="inline-block h-3 w-3 bg-danger" />
+          <span className="pixel text-[12px] text-white">ROBOSHIELD</span>
+        </Link>
+        <Link
+          href="/dashboard"
+          className="kicker border border-danger/50 px-3 py-2 text-white transition hover:bg-danger/15"
+        >
+          open console_
+        </Link>
       </header>
 
-      {/* Hero */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 pb-10 pt-12 sm:pt-20">
-        <motion.div initial="hidden" animate="show" variants={fade} custom={0}>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/60">
-            <span className="h-1.5 w-1.5 rounded-full bg-signal-400" />
-            Antivirus for the physical world
-          </div>
-        </motion.div>
+      <Hero />
 
-        <motion.h1
-          initial="hidden"
-          animate="show"
-          variants={fade}
-          custom={1}
-          className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl"
-        >
-          A behavior firewall for robots,
-          <br className="hidden sm:block" /> drones, cameras &amp; smart devices.
-        </motion.h1>
+      <LandingSection
+        index="02"
+        kicker="the threat"
+        device={PixelCamera}
+        direction="ltr"
+        glitch
+        title={<>It does not crash. It obeys.</>}
+        body={
+          <>
+            A hijacked camera, vacuum, or drone does not break. It follows orders perfectly, just from the wrong
+            person. Now it is a moving microphone, a speaker, or a set of wheels aimed at someone.
+          </>
+        }
+      />
 
-        <motion.p
-          initial="hidden"
-          animate="show"
-          variants={fade}
-          custom={2}
-          className="mt-5 max-w-2xl text-lg leading-relaxed text-white/60"
-        >
-          RoboShield sits between the apps, clouds, and AI agents that send commands and the robot&apos;s
-          actual hardware. Every command is checked first, unsafe movement, audio, recording, remote
-          control, and AI-generated actions are blocked before a motor ever turns.
-        </motion.p>
+      <LandingSection
+        index="03"
+        kicker="how it works"
+        device={PixelDrone}
+        direction="rtl"
+        title={<>Between the command and the machine.</>}
+        body={
+          <>
+            RoboShield is a firewall that sits on the control link. Every instruction is checked against the
+            device&apos;s real sensor state before a single motor turns. Safe commands pass. Dangerous ones never
+            arrive.
+          </>
+        }
+      >
+        <InterceptLine />
+      </LandingSection>
 
-        <motion.div
-          initial="hidden"
-          animate="show"
-          variants={fade}
-          custom={3}
-          className="mt-8 flex flex-wrap items-center gap-3"
-        >
-          <Link
-            href="/dashboard"
-            className="group inline-flex items-center gap-2 rounded-md bg-signal-500 px-5 py-3 font-semibold text-ink-950 shadow-glow transition hover:bg-signal-400"
-          >
-            Run the live demo
-            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-          </Link>
-          <Link
-            href="/dashboard?tab=pipeline"
-            className="inline-flex items-center gap-2 rounded-md border border-white/12 bg-white/[0.03] px-5 py-3 font-semibold text-white/80 transition hover:bg-white/[0.06]"
-          >
-            View command pipeline
-          </Link>
-        </motion.div>
+      <LandingSection
+        index="04"
+        kicker="the proof"
+        device={PixelRoomba}
+        direction="ltr"
+        title={<>Safe passes. Attacks do not.</>}
+        body={
+          <>
+            Move toward a person and play audio? Blocked, with a plain-English reason logged to a black box. Patrol
+            the room on schedule? Allowed. The robot keeps its real job and loses the dangerous one.
+          </>
+        }
+      />
 
-        {/* one-liner card */}
-        <motion.div
-          initial="hidden"
-          animate="show"
-          variants={fade}
-          custom={4}
-          className="mt-12 max-w-3xl rounded-lg border border-signal-500/20 bg-signal-500/[0.06] p-5"
-        >
-          <div className="flex items-start gap-3">
-            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-signal-400" />
-            <p className="text-[15px] leading-relaxed text-white/80">
-              <span className="font-semibold text-white">The pitch in one line:</span> RoboShield stops
-              hacked or AI-controlled devices from becoming moving cameras, speakers, or harassment tools
-              inside people&apos;s homes, without breaking the robot&apos;s real job.
-            </p>
-          </div>
-        </motion.div>
-      </section>
+      <CTA />
 
-      {/* Threats */}
-      <section id="threats" className="relative z-10 mx-auto max-w-6xl px-6 py-14">
-        <div className="mb-6 text-sm font-semibold uppercase tracking-[0.2em] text-white/40">
-          What a hijacked device can do
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {THREATS.map((t, i) => (
-            <motion.div
-              key={t.label}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
-              className="card p-5"
-            >
-              <t.icon className="h-5 w-5 text-danger" />
-              <div className="mt-3 font-semibold text-white">{t.label}</div>
-              <div className="mt-1 text-sm text-white/50">{t.desc}</div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* How preview */}
-      <section id="how" className="relative z-10 mx-auto max-w-6xl px-6 pb-20">
-        <div className="card flex flex-col items-start justify-between gap-6 p-7 sm:flex-row sm:items-center">
-          <div className="flex items-center gap-4">
-            <Lock className="h-8 w-8 text-signal-400" />
-            <div>
-              <div className="text-lg font-semibold text-white">Seven checks. Every command. Every time.</div>
-              <div className="mt-1 text-sm text-white/55">
-                Received → Normality → Permission Token → Physical DLP → AI Sanitizer → Trust Zone → Decision
-              </div>
-            </div>
-          </div>
-          <Link
-            href="/dashboard?tab=pipeline"
-            className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/12 px-4 py-2.5 font-semibold text-white/80 transition hover:bg-white/[0.06]"
-          >
-            See each step <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <p className="mt-8 text-center text-xs text-white/30">
-          Hackathon MVP · simulation mode · optional Arduino bridge
-        </p>
-      </section>
+      <footer className="relative z-10 flex items-center justify-between border-t border-white/10 px-[clamp(20px,5vw,80px)] py-8">
+        <span className="pixel text-[10px] text-white/60">ROBOSHIELD</span>
+        <span className="kicker text-white/30">behavior firewall // 2026</span>
+      </footer>
     </main>
+  );
+}
+
+function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const droneY = useTransform(scrollYProgress, [0, 1], ["0vh", "-30vh"]);
+  const droneScale = useTransform(scrollYProgress, [0, 1], [1, 1.4]);
+  const droneOpacity = useTransform(scrollYProgress, [0, 0.8], [0.9, 0]);
+
+  return (
+    <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden px-[clamp(24px,6vw,110px)]">
+      <motion.div
+        aria-hidden
+        style={{ y: droneY, scale: droneScale, opacity: droneOpacity }}
+        className="pointer-events-none absolute right-[2%] top-1/2 z-0 w-[min(56vw,640px)] -translate-y-1/2 text-[#c6ccd6]"
+      >
+        <PixelDrone />
+      </motion.div>
+
+      <div className="relative z-10 max-w-3xl">
+        <div className="kicker">behavior firewall // physical machines</div>
+        <h1 className="hpixel mt-6 text-[clamp(2rem,7vw,5.5rem)] leading-[1.1] text-white">
+          ROBO<span className="text-danger">SHIELD</span>
+        </h1>
+        <p className="hterm mt-7 max-w-xl text-[clamp(1.4rem,3vw,2.4rem)] leading-tight text-white/80">
+          Antivirus for the things that move, speak, and watch.
+        </p>
+        <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-white/55">
+          Every command a robot, drone, or smart device receives gets checked before it can act. The dangerous ones
+          stop at the gate.
+        </p>
+        <div className="mt-9 flex items-center gap-4">
+          <Link href="/dashboard" className="pixel bg-danger px-5 py-3 text-[11px] text-black transition hover:bg-signal-400">
+            open console_
+          </Link>
+          <span className="kicker animate-flicker text-white/40">scroll ▾</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function InterceptLine() {
+  return (
+    <div className="inline-flex items-center gap-3 border border-white/12 bg-ink-900/60 px-4 py-3 text-sm">
+      <span className="mono text-white/55">command</span>
+      <span className="text-white/30">{">>"}</span>
+      <span className="kicker">roboshield</span>
+      <span className="text-white/30">{">>"}</span>
+      <span className="pixel text-[10px] text-danger">BLOCKED</span>
+    </div>
+  );
+}
+
+function CTA() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const x = useTransform(scrollYProgress, [0, 1], ["38vw", "-38vw"]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [8, -8]);
+
+  return (
+    <section ref={ref} className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 text-center">
+      <motion.div
+        aria-hidden
+        style={{ x, rotate }}
+        className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-[min(50vw,560px)] -translate-x-1/2 -translate-y-1/2 text-[#c6ccd6] opacity-30"
+      >
+        <PixelRobotArm />
+      </motion.div>
+
+      <div className="relative z-10">
+        <div className="kicker">live demo</div>
+        <h2 className="hterm mt-5 text-[clamp(2.4rem,7vw,6rem)] uppercase text-white">See it block an attack.</h2>
+        <p className="mx-auto mt-5 max-w-md text-[15px] leading-relaxed text-white/60">
+          The console runs entirely in your browser. Fire an attack, watch the firewall stop it, and read the
+          incident it leaves behind.
+        </p>
+        <Link
+          href="/dashboard"
+          className="pixel mt-9 inline-block bg-danger px-6 py-4 text-[12px] text-black transition hover:bg-signal-400"
+        >
+          open console_
+        </Link>
+      </div>
+    </section>
   );
 }

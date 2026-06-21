@@ -4,175 +4,126 @@
 
 :root {
   color-scheme: dark;
+  --red: #ff2233;
+  --amber: #f0a52a;
+  --steel: #c6ccd6;
+  --bg: #08080b;
+  --ink: #e6e7ee;
 }
 
 html,
 body {
-  background-color: #0b0a09;
-  color: #ece5d7;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-mono), ui-monospace, monospace;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Warm ambient backdrop for the product shell (no cool cyan glow). */
+/* Terminal + pixel helpers */
+.term {
+  font-family: var(--font-term), ui-monospace, monospace;
+}
+.pixel {
+  font-family: var(--font-pixel), ui-monospace, monospace;
+  letter-spacing: 0.02em;
+}
+.mono {
+  font-variant-ligatures: none;
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* CRT scanlines + faint vignette, applied to a fixed overlay element. */
+.scanlines::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.16) 3px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  mix-blend-mode: multiply;
+}
+.scanlines::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 69;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* Faint red dot-matrix backdrop. */
 .bg-shell {
   background:
-    radial-gradient(55% 45% at 50% -10%, rgba(255, 74, 28, 0.08), transparent 60%),
-    radial-gradient(40% 40% at 92% 8%, rgba(224, 163, 65, 0.05), transparent 60%),
-    #0b0a09;
+    radial-gradient(60% 50% at 50% -10%, rgba(255, 34, 51, 0.08), transparent 60%),
+    #08080b;
 }
-
 .bg-dots {
-  background-image: radial-gradient(rgba(236, 229, 215, 0.05) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 34, 51, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
-/* Thin custom scrollbar for log panels. */
+/* Scrollbar */
 .scroll-thin::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 .scroll-thin::-webkit-scrollbar-thumb {
-  background: rgba(236, 229, 215, 0.12);
-  border-radius: 999px;
+  background: rgba(255, 34, 51, 0.25);
+  border-radius: 0;
 }
 .scroll-thin::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.mono {
-  font-variant-ligatures: none;
-  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
-}
-
-/* Flat "instrument panel" surface — hairline border, warm paper, no glass blur. */
+/* Flat "panel" surface, sharp corners, hairline border. */
 .card {
-  background: #100e0c;
-  border: 1px solid rgba(236, 229, 215, 0.1);
-  border-radius: 10px;
+  background: #0c0c11;
+  border: 1px solid rgba(230, 231, 238, 0.09);
+  border-radius: 4px;
 }
 
-/* ───────────────────────────────────────────────────────────────────────────
-   PITCH DECK design system — fully scoped to .deck, separate from the product.
-   Warm paper + bone ink + a single ember accent. Oversized editorial type,
-   intentional grain, no glass cards, no status dots.
-   ─────────────────────────────────────────────────────────────────────────── */
-.deck {
-  --paper: #0b0a09;
-  --paper-2: #131110;
-  --ink: #ece5d7;
-  --ink-dim: rgba(236, 229, 215, 0.5);
-  --ink-faint: rgba(236, 229, 215, 0.16);
-  --ember: #ff4a1c;
-  --ember-soft: rgba(255, 74, 28, 0.14);
-
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-display), system-ui, sans-serif;
-}
-
-/* Film grain — the "human friction" layer. */
-.deck::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 60;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Blueprint hairline frame — engineering motif, used as design not decoration. */
-.deck-frame {
-  position: absolute;
-  inset: clamp(16px, 3vw, 40px);
-  border: 1px solid var(--ink-faint);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.deck-kicker {
-  font-family: var(--font-mono), monospace;
-  font-size: clamp(10px, 0.8vw, 12px);
-  letter-spacing: 0.28em;
+/* Section kicker label used across both pages. */
+.kicker {
+  font-family: var(--font-term), monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ink-dim);
-}
-.deck-kicker--ember {
-  color: var(--ember);
+  color: rgba(255, 34, 51, 0.85);
 }
 
-/* Viewport-scaled editorial headline. */
-.deck-h {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.03em;
-  font-size: clamp(2.6rem, 8.5vw, 10rem);
-  margin: 0;
+/* Glitch text: layered red/steel offsets that jitter. */
+.glitch {
+  position: relative;
+  text-shadow: 0.02em 0 rgba(255, 34, 51, 0.5), -0.02em 0 rgba(120, 200, 220, 0.35);
+  animation: glitch-shift 4.5s steps(1) infinite;
 }
-.deck-h--sm {
-  font-size: clamp(2rem, 5vw, 4.5rem);
-}
-.deck-serif {
-  font-family: var(--font-serif), Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--ember);
-  letter-spacing: -0.01em;
+@keyframes glitch-shift {
+  0%, 92%, 100% { text-shadow: 0.02em 0 rgba(255, 34, 51, 0.45), -0.02em 0 rgba(120, 200, 220, 0.3); }
+  93% { text-shadow: -0.06em 0 rgba(255, 34, 51, 0.8), 0.06em 0 rgba(120, 200, 220, 0.6); transform: translateX(1px); }
+  96% { text-shadow: 0.08em 0 rgba(255, 34, 51, 0.7), -0.05em 0 rgba(120, 200, 220, 0.5); transform: translateX(-1px); }
 }
 
-/* Outlined headline word — editorial, ember stroke, transparent fill. */
-.deck-stroke {
-  color: transparent;
-  -webkit-text-stroke: clamp(1px, 0.18vw, 2.5px) var(--ember);
+/* Big pixel headline scaled to viewport. */
+.hpixel {
+  font-family: var(--font-pixel), monospace;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
 }
-.deck-lede {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(1rem, 1.5vw, 1.5rem);
-  line-height: 1.45;
-  color: var(--ink-dim);
-  max-width: 46ch;
-}
-
-/* Mask reveal: wrap a line, animate the inner span up from below.
-   Padding/negative-margin keeps italic descenders (y, p, g) from clipping. */
-.reveal-mask {
-  overflow: hidden;
-  display: block;
-  padding-bottom: 0.14em;
-  margin-bottom: -0.14em;
+.hterm {
+  font-family: var(--font-term), monospace;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
 }
 
-/* Marquee for kinetic word strips. */
-@keyframes deck-marquee {
-  from {
-    transform: translateX(0);
+@media (prefers-reduced-motion: reduce) {
+  .glitch,
+  .animate-flicker {
+    animation: none !important;
   }
-  to {
-    transform: translateX(-50%);
-  }
-}
-.deck-marquee {
-  display: inline-flex;
-  white-space: nowrap;
-  will-change: transform;
-  animation: deck-marquee linear infinite;
-}
-
-.deck-rule {
-  height: 1px;
-  width: 100%;
-  background: var(--ink-faint);
-}
-
-/* Big index numerals for sectioning. */
-.deck-index {
-  font-family: var(--font-mono), monospace;
-  color: var(--ink-faint);
-  font-size: clamp(11px, 1vw, 14px);
-  letter-spacing: 0.1em;
 }

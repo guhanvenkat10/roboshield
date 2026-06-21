@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import type { ShieldStatus } from "@/lib/store";
 
 const STATUS_COLOR: Record<ShieldStatus, string> = {
-  protected: "#bdb6a1",
-  threat: "#ff4a1c",
-  lockdown: "#e0a341",
+  protected: "#c6ccd6",
+  threat: "#ff2233",
+  lockdown: "#f0a52a",
 };
 
 /**
@@ -26,17 +26,9 @@ export function RobotVisual({
 
   return (
     <div className="relative grid aspect-square w-full place-items-center">
-      {/* pulse rings */}
-      <div
-        className="absolute h-40 w-40 rounded-full"
-        style={{ boxShadow: `0 0 0 1px ${color}33` }}
-      />
-      <motion.div
-        className="absolute h-40 w-40 rounded-full"
-        style={{ border: `1px solid ${color}` }}
-        animate={{ scale: [0.9, 1.35], opacity: [0.5, 0] }}
-        transition={{ duration: status === "threat" ? 1.1 : 2.4, repeat: Infinity, ease: "easeOut" }}
-      />
+      {/* static targeting rings (no pulsing) */}
+      <div className="absolute h-44 w-44" style={{ border: `1px solid ${color}22` }} />
+      <div className="absolute h-36 w-36 rounded-full" style={{ border: `1px solid ${color}33` }} />
 
       {/* shield arc */}
       <svg viewBox="0 0 200 200" className="absolute h-full w-full">
@@ -53,18 +45,11 @@ export function RobotVisual({
           transition={{ duration: status === "threat" ? 8 : 24, repeat: Infinity, ease: "linear" }}
           style={{ transformOrigin: "100px 100px" }}
         />
-        {/* proximity blip */}
+        {/* proximity marker (static pixel square) */}
         {personNearby && (
           <g>
-            <motion.circle
-              cx="160"
-              cy="70"
-              r="6"
-              fill="#fb5e5e"
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
-            <text x="150" y="52" fill="#fb5e5e" fontSize="9" textAnchor="middle" className="mono">
+            <rect x="154" y="64" width="10" height="10" fill="#ff2233" />
+            <text x="159" y="54" fill="#ff2233" fontSize="9" textAnchor="middle" className="mono">
               person
             </text>
           </g>

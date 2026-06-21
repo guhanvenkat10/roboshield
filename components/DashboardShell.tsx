@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { serialBridge } from "@/lib/serial";
 import { motion } from "framer-motion";
 import { Activity, FlaskConical, GitBranch, ScrollText, ShieldOff, SlidersHorizontal } from "lucide-react";
-import { Logo } from "./primitives";
 import { StatusPill } from "./StatusPill";
 import { OverviewSection } from "./sections/OverviewSection";
 import { PipelineSection } from "./sections/PipelineSection";
@@ -14,6 +13,7 @@ import { DemoLabSection } from "./sections/DemoLabSection";
 import { PolicySection } from "./sections/PolicySection";
 import { IncidentsSection } from "./sections/IncidentsSection";
 import { useRoboShield } from "@/lib/store";
+import { PixelField } from "./cyber/PixelField";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -46,23 +46,22 @@ export function DashboardShell() {
   }, []);
 
   return (
-    <div className="relative min-h-screen">
-      <div className="pointer-events-none absolute inset-0 bg-dots opacity-30" />
+    <div className="scanlines bg-shell relative min-h-screen">
+      <PixelField density={0.5} />
 
       {/* Top bar */}
-      <header className="sticky top-0 z-30 border-b border-white/[0.06] bg-ink-950/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-ink-950/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3">
-          <div className="flex items-center gap-5">
-            <Link href="/">
-              <Logo />
-            </Link>
-          </div>
+          <Link href="/" className="flex items-center gap-2.5">
+            <span className="inline-block h-3 w-3 bg-danger" />
+            <span className="pixel text-[12px] text-white">ROBOSHIELD</span>
+          </Link>
           <StatusPill />
         </div>
 
         {/* Tabs */}
         <div className="mx-auto max-w-7xl px-3">
-          <div className="scroll-thin flex gap-1 overflow-x-auto pb-px">
+          <div className="scroll-thin flex gap-0.5 overflow-x-auto pb-px">
             {TABS.map((t) => {
               const active = tab === t.id;
               const count = t.id === "incidents" ? incidents.length : 0;
@@ -71,22 +70,17 @@ export function DashboardShell() {
                   key={t.id}
                   onClick={() => setTab(t.id)}
                   className={cn(
-                    "relative flex items-center gap-2 whitespace-nowrap px-4 py-2.5 text-sm font-medium transition",
-                    active ? "text-white" : "text-white/45 hover:text-white/75"
+                    "relative flex items-center gap-2 whitespace-nowrap px-4 py-2.5 font-term text-base uppercase tracking-wider transition",
+                    active ? "text-danger" : "text-white/45 hover:text-white/80"
                   )}
                 >
                   <t.icon className="h-4 w-4" />
                   {t.label}
                   {count > 0 && (
-                    <span className="rounded-full bg-danger/20 px-1.5 text-[10px] font-semibold text-danger">
-                      {count}
-                    </span>
+                    <span className="bg-danger px-1.5 text-[10px] font-semibold text-black">{count}</span>
                   )}
                   {active && (
-                    <motion.div
-                      layoutId="tab-underline"
-                      className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-signal-400"
-                    />
+                    <motion.div layoutId="tab-underline" className="absolute inset-x-2 -bottom-px h-0.5 bg-danger" />
                   )}
                 </button>
               );

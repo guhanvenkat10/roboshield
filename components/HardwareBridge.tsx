@@ -97,7 +97,7 @@ export function HardwareBridge() {
           "mt-3 flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2.5 text-sm font-semibold transition",
           shieldEnabled
             ? "border-safe/30 bg-safe/10 text-safe"
-            : "border-danger/40 bg-danger/10 text-danger animate-pulse"
+            : "border-danger/50 bg-danger/15 text-danger"
         )}
         title="Turn the firewall off to show an unprotected device obeying an attack, then back on to block it."
       >

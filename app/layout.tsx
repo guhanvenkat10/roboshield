@@ -1,28 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Space_Grotesk, Instrument_Serif } from "next/font/google";
+import { JetBrains_Mono, VT323, Press_Start_2P } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+// Readable mono for body, VT323 terminal for headings/labels, Press Start 2P
+// pixel font reserved for big hero moments.
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
-const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-serif",
-  display: "swap",
-});
+const term = VT323({ subsets: ["latin"], weight: "400", variable: "--font-term", display: "swap" });
+const pixel = Press_Start_2P({ subsets: ["latin"], weight: "400", variable: "--font-pixel", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "RoboShield, A Behavior Firewall for Robots",
+  title: "RoboShield // behavior firewall for physical machines",
   description:
-    "RoboShield is antivirus for the real world. It checks every command before it reaches a robot's motors, speaker, camera, or radio, blocking unsafe movement, audio, recording, remote control, and AI-generated actions.",
+    "RoboShield sits between the command and the machine. It checks every instruction before a robot, drone, or smart device can act, and blocks the ones that would turn it against you.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable} ${display.variable} ${serif.variable}`}>
-      <body className="bg-shell min-h-screen font-sans antialiased">{children}</body>
+    <html lang="en" className={`${mono.variable} ${term.variable} ${pixel.variable}`}>
+      <body className="min-h-screen antialiased">{children}</body>
     </html>
   );
 }
