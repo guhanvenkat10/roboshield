@@ -13,10 +13,18 @@ import { cn } from "@/lib/utils";
 export function ContextControls() {
   const context = useRoboShield((s) => s.context);
   const setContext = useRoboShield((s) => s.setContext);
+  const liveDriven = useRoboShield((s) => s.useLiveSensors && s.robotConnected);
 
   return (
     <div className="space-y-3">
-      <div className="text-xs font-semibold uppercase tracking-wider text-white/40">Live sensor state</div>
+      <div className="flex items-center gap-2">
+        <div className="text-xs font-semibold uppercase tracking-wider text-white/40">Live sensor state</div>
+        {liveDriven && (
+          <span className="inline-flex items-center gap-1 rounded-full border border-signal-500/30 bg-signal-500/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-signal-400">
+            <span className="h-1 w-1 rounded-full bg-signal-400" /> Hardware
+          </span>
+        )}
+      </div>
 
       {/* Zone selector */}
       <div>
@@ -43,9 +51,11 @@ export function ContextControls() {
       <div className="grid grid-cols-2 gap-2">
         <Toggle
           icon={User}
-          label="Person nearby"
+          label={liveDriven ? "Person (live)" : "Person nearby"}
           active={context.personNearby}
-          onClick={() => setContext({ personNearby: !context.personNearby, proximityCm: context.personNearby ? 180 : 40 })}
+          onClick={() =>
+            !liveDriven && setContext({ personNearby: !context.personNearby, proximityCm: context.personNearby ? 180 : 40 })
+          }
         />
         <Toggle icon={Moon} label="Night mode" active={context.isNight} onClick={() => setContext({ isNight: !context.isNight })} />
         <Toggle

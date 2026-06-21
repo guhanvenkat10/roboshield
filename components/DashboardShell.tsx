@@ -2,7 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { serialBridge } from "@/lib/serial";
 import { motion } from "framer-motion";
 import { Activity, FlaskConical, GitBranch, ScrollText, ShieldOff, SlidersHorizontal } from "lucide-react";
 import { Logo } from "./primitives";
@@ -31,6 +32,18 @@ export function DashboardShell() {
   const [tab, setTab] = useState<TabId>(TABS.some((t) => t.id === initial) ? initial : "overview");
   const incidents = useRoboShield((s) => s.incidents);
   const shieldEnabled = useRoboShield((s) => s.shieldEnabled);
+
+  // Single place that feeds the hardware serial stream into the store, so live
+  // telemetry reaches every component (sensors, risk logic, monitor) at once.
+  useEffect(() => {
+    const { _onRobotStatus, _onTelemetry } = useRoboShield.getState();
+    const offStatus = serialBridge.onStatus(_onRobotStatus);
+    const offTel = serialBridge.onTelemetry(_onTelemetry);
+    return () => {
+      offStatus();
+      offTel();
+    };
+  }, []);
 
   return (
     <div className="relative min-h-screen">

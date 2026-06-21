@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bluetooth, Cpu, OctagonX, Plug, Radar, ShieldOff, Usb } from "lucide-react";
+import { Bluetooth, Cpu, OctagonX, Plug, Radar, Satellite, ShieldOff, Usb } from "lucide-react";
 import { Card } from "./primitives";
 import { useRoboShield } from "@/lib/store";
-import { isSerialSupported, serialBridge, type RobotTelemetry } from "@/lib/serial";
+import { isSerialSupported, serialBridge } from "@/lib/serial";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,20 +17,16 @@ export function HardwareBridge() {
   const shieldEnabled = useRoboShield((s) => s.shieldEnabled);
   const setShield = useRoboShield((s) => s.setShield);
   const emergencyStop = useRoboShield((s) => s.emergencyStop);
+  const connected = useRoboShield((s) => s.robotConnected);
+  const telemetry = useRoboShield((s) => s.telemetry);
+  const useLiveSensors = useRoboShield((s) => s.useLiveSensors);
+  const setUseLiveSensors = useRoboShield((s) => s.setUseLiveSensors);
 
-  const [connected, setConnected] = useState(false);
-  const [telemetry, setTelemetry] = useState<RobotTelemetry | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [supported, setSupported] = useState(true);
 
   useEffect(() => {
     setSupported(isSerialSupported());
-    const offStatus = serialBridge.onStatus(setConnected);
-    const offTel = serialBridge.onTelemetry(setTelemetry);
-    return () => {
-      offStatus();
-      offTel();
-    };
   }, []);
 
   async function toggleConnect() {
@@ -73,6 +69,26 @@ export function HardwareBridge() {
           tone={telemetry?.person ? "danger" : undefined}
         />
       </div>
+
+      {/* Live-sensor link: real ultrasonic drives the firewall context */}
+      <button
+        onClick={() => setUseLiveSensors(!useLiveSensors)}
+        className={cn(
+          "mt-2 flex w-full items-center justify-between gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition",
+          useLiveSensors && connected
+            ? "border-signal-500/30 bg-signal-500/10 text-signal-400"
+            : "border-white/10 text-white/50 hover:bg-white/5"
+        )}
+        title="When on, the rover's real ultrasonic reading sets 'person nearby' for the firewall — so blocks are driven by hardware, not toggles."
+      >
+        <span className="flex items-center gap-2">
+          <Satellite className="h-3.5 w-3.5" />
+          Live sensors drive the firewall
+        </span>
+        <span className="opacity-70">
+          {useLiveSensors ? (connected ? "ON · live" : "ON · waiting for robot") : "OFF · manual"}
+        </span>
+      </button>
 
       {/* Shield A/B toggle — the on-stage money switch */}
       <button
