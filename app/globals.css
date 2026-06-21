@@ -51,3 +51,129 @@ body {
   border-radius: 16px;
   backdrop-filter: blur(8px);
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   PITCH DECK design system — fully scoped to .deck, separate from the product.
+   Warm paper + bone ink + a single ember accent. Oversized editorial type,
+   intentional grain, no glass cards, no status dots.
+   ─────────────────────────────────────────────────────────────────────────── */
+.deck {
+  --paper: #0b0a09;
+  --paper-2: #131110;
+  --ink: #ece5d7;
+  --ink-dim: rgba(236, 229, 215, 0.5);
+  --ink-faint: rgba(236, 229, 215, 0.16);
+  --ember: #ff4a1c;
+  --ember-soft: rgba(255, 74, 28, 0.14);
+
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+/* Film grain — the "human friction" layer. */
+.deck::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Blueprint hairline frame — engineering motif, used as design not decoration. */
+.deck-frame {
+  position: absolute;
+  inset: clamp(16px, 3vw, 40px);
+  border: 1px solid var(--ink-faint);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.deck-kicker {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(10px, 0.8vw, 12px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.deck-kicker--ember {
+  color: var(--ember);
+}
+
+/* Viewport-scaled editorial headline. */
+.deck-h {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.6rem, 8.5vw, 10rem);
+  margin: 0;
+}
+.deck-h--sm {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+}
+.deck-serif {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ember);
+  letter-spacing: -0.01em;
+}
+
+/* Outlined headline word — editorial, ember stroke, transparent fill. */
+.deck-stroke {
+  color: transparent;
+  -webkit-text-stroke: clamp(1px, 0.18vw, 2.5px) var(--ember);
+}
+.deck-lede {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--ink-dim);
+  max-width: 46ch;
+}
+
+/* Mask reveal: wrap a line, animate the inner span up from below.
+   Padding/negative-margin keeps italic descenders (y, p, g) from clipping. */
+.reveal-mask {
+  overflow: hidden;
+  display: block;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+/* Marquee for kinetic word strips. */
+@keyframes deck-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.deck-marquee {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+  animation: deck-marquee linear infinite;
+}
+
+.deck-rule {
+  height: 1px;
+  width: 100%;
+  background: var(--ink-faint);
+}
+
+/* Big index numerals for sectioning. */
+.deck-index {
+  font-family: var(--font-mono), monospace;
+  color: var(--ink-faint);
+  font-size: clamp(11px, 1vw, 14px);
+  letter-spacing: 0.1em;
+}

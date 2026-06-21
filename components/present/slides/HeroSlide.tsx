@@ -1,95 +1,54 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
-import { RobotVisual } from "@/components/RobotVisual";
-
-// Deterministic "floating particles" so the hero animates without hydration drift.
-const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
-  left: (i * 53) % 100,
-  top: (i * 37) % 100,
-  delay: (i % 6) * 0.4,
-  dur: 4 + (i % 5),
-  size: 1 + (i % 3),
-}));
+import { Kicker, Reveal, Rise } from "../kit";
 
 export function HeroSlide() {
   return (
-    <div className="relative grid h-full w-full place-items-center overflow-hidden px-8">
-      {/* layered glows */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/3 h-[60vh] w-[60vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal-500/15 blur-[120px]" />
-        <div className="absolute right-[12%] top-[20%] h-[30vh] w-[30vh] rounded-full bg-rewrite/10 blur-[100px]" />
-      </div>
-      <div className="pointer-events-none absolute inset-0 bg-dots opacity-30" />
-
-      {/* particles */}
-      {PARTICLES.map((p, i) => (
-        <motion.span
-          key={i}
-          className="absolute rounded-full bg-signal-400/40"
-          style={{ left: `${p.left}%`, top: `${p.top}%`, width: p.size, height: p.size }}
-          animate={{ y: [0, -16, 0], opacity: [0.15, 0.6, 0.15] }}
-          transition={{ duration: p.dur, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ))}
-
-      <div className="relative z-10 grid w-full max-w-6xl grid-cols-1 items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-        {/* copy */}
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/60"
-          >
-            <ShieldCheck className="h-3.5 w-3.5 text-signal-400" />
-            Antivirus for the physical world
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="mt-6 text-6xl font-semibold leading-[0.95] tracking-tight text-white sm:text-7xl xl:text-8xl"
-          >
-            Robo
-            <span className="bg-gradient-to-r from-signal-400 to-rewrite bg-clip-text text-transparent">
-              Shield
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25 }}
-            className="mt-6 max-w-xl text-xl leading-relaxed text-white/65 sm:text-2xl"
-          >
-            A behavior firewall for robots, drones, cameras &amp; smart devices —
-            it checks every command <span className="text-white">before</span> it can reach the hardware.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-8 flex items-center gap-3 text-sm text-white/35"
-          >
-            <span className="inline-flex h-7 items-center rounded-md border border-white/10 px-2 mono">→</span>
-            press to begin
-          </motion.div>
-        </div>
-
-        {/* robot */}
+    <section className="relative flex h-full w-full flex-col justify-center px-[clamp(28px,7vw,120px)]">
+      {/* ambient interceptor line */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-[18%] z-0">
+        <div className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2" style={{ background: "var(--ink-faint)" }} />
+        <div className="absolute top-1/2 h-7 w-px -translate-y-1/2" style={{ left: "62%", background: "var(--ember)" }} />
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto w-[min(78vw,420px)]"
-        >
-          <RobotVisual status="protected" personNearby={false} />
-        </motion.div>
+          className="absolute top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full"
+          style={{ background: "var(--ink)" }}
+          initial={{ left: "4%", opacity: 0 }}
+          animate={{ left: ["4%", "62%", "62%"], opacity: [0, 1, 0] }}
+          transition={{ duration: 3.2, repeat: Infinity, repeatDelay: 1.4, ease: "easeOut", times: [0, 0.8, 1] }}
+        />
       </div>
-    </div>
+
+      <div className="relative z-10 flex items-start justify-between">
+        <Kicker>A behavior firewall for physical AI</Kicker>
+        <Kicker>Pitch / 2026</Kicker>
+      </div>
+
+      <div className="relative z-10 mt-[6vh]">
+        <h1 className="deck-h">
+          <Reveal delay={0.1}>ROBO</Reveal>
+          <Reveal delay={0.24}>
+            <span className="deck-stroke">SHIELD</span>
+          </Reveal>
+        </h1>
+
+        <Rise delay={0.7} className="mt-[4vh] max-w-3xl">
+          <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic" }} className="text-[clamp(1.4rem,3vw,2.6rem)] leading-tight">
+            Antivirus for the <span style={{ color: "var(--ember)" }}>physical</span> world.
+          </p>
+        </Rise>
+
+        <Rise delay={0.9} className="mt-6">
+          <p className="deck-lede">
+            Every command a robot receives gets checked before a single motor turns. Unsafe movement, audio,
+            recording, and AI-driven actions stop at the gate.
+          </p>
+        </Rise>
+      </div>
+
+      <Rise delay={1.2} className="relative z-10 mt-[6vh]">
+        <span className="deck-kicker">press the right arrow to begin</span>
+      </Rise>
+    </section>
   );
 }
