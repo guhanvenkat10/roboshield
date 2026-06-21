@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Activity, FlaskConical, GitBranch, ScrollText, SlidersHorizontal } from "lucide-react";
+import { Activity, FlaskConical, GitBranch, ScrollText, ShieldOff, SlidersHorizontal } from "lucide-react";
 import { Logo } from "./primitives";
 import { StatusPill } from "./StatusPill";
 import { OverviewSection } from "./sections/OverviewSection";
@@ -30,6 +30,7 @@ export function DashboardShell() {
   const initial = (params.get("tab") as TabId) || "overview";
   const [tab, setTab] = useState<TabId>(TABS.some((t) => t.id === initial) ? initial : "overview");
   const incidents = useRoboShield((s) => s.incidents);
+  const shieldEnabled = useRoboShield((s) => s.shieldEnabled);
 
   return (
     <div className="relative min-h-screen">
@@ -80,6 +81,20 @@ export function DashboardShell() {
           </div>
         </div>
       </header>
+
+      {/* Firewall-bypassed banner — the "unprotected device" half of the A/B demo */}
+      {!shieldEnabled && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          className="relative z-20 border-b border-danger/30 bg-danger/15"
+        >
+          <div className="mx-auto flex max-w-7xl items-center gap-2 px-5 py-2 text-sm font-semibold text-danger">
+            <ShieldOff className="h-4 w-4" />
+            Firewall bypassed — commands are reaching the device unfiltered. This is what an unprotected robot does.
+          </div>
+        </motion.div>
+      )}
 
       {/* Content */}
       <main className="relative z-10 mx-auto max-w-7xl px-5 py-7">

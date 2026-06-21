@@ -11,6 +11,7 @@ import {
   type RoboCommand,
   type RobotContext,
 } from "./roboshield";
+import { serialBridge, outcomeToRobotCommand } from "./serial";
 
 export type ShieldStatus = "protected" | "threat" | "lockdown";
 
@@ -31,11 +32,16 @@ interface RoboShieldState {
   /** Total commands seen / blocked, for headline stats. */
   totalEvaluated: number;
   totalBlocked: number;
+  /** When false, the firewall is bypassed and commands hit the robot raw
+   *  (the "unprotected device" half of the on-stage A/B demo). */
+  shieldEnabled: boolean;
 
   setContext: (patch: Partial<RobotContext>) => void;
   setPolicy: (patch: Partial<PolicyConfig>) => void;
+  setShield: (enabled: boolean) => void;
   runCommand: (command: RoboCommand, contextOverride?: Partial<RobotContext>) => Evaluation;
   lockdown: () => void;
+  emergencyStop: () => void;
   resetDemo: () => void;
   clearIncidents: () => void;
 }
@@ -59,14 +65,20 @@ export const useRoboShield = create<RoboShieldState>((set, get) => ({
   riskHistory: seedHistory(),
   totalEvaluated: 0,
   totalBlocked: 0,
+  shieldEnabled: true,
 
   setContext: (patch) => set((s) => ({ context: { ...s.context, ...patch } })),
   setPolicy: (patch) => set((s) => ({ policy: { ...s.policy, ...patch } })),
+  setShield: (enabled) => set({ shieldEnabled: enabled }),
 
   runCommand: (command, contextOverride) => {
     const base = get().context;
     const ctx = contextOverride ? { ...base, ...contextOverride } : base;
     const evaluation = evaluateCommand(command, ctx, get().policy);
+
+    // Forward the outcome to the physical rover (no-op if none is connected).
+    const robotCmd = outcomeToRobotCommand(evaluation.command.action, evaluation.decision, get().shieldEnabled);
+    if (robotCmd) serialBridge.send(robotCmd);
 
     set((s) => {
       const isIncident = evaluation.decision !== "allowed";
@@ -99,14 +111,22 @@ export const useRoboShield = create<RoboShieldState>((set, get) => ({
     return evaluation;
   },
 
-  lockdown: () =>
+  lockdown: () => {
+    serialBridge.send("LOCKDOWN");
     set((s) => ({
       status: "lockdown",
       context: { ...s.context, zone: "private" },
       riskHistory: [...s.riskHistory, { t: Date.now(), v: 34 }].slice(-48),
-    })),
+    }));
+  },
 
-  resetDemo: () =>
+  emergencyStop: () => {
+    serialBridge.send("STOP");
+    set({ status: "threat" });
+  },
+
+  resetDemo: () => {
+    serialBridge.send("PATROL");
     set({
       context: { ...DEFAULT_CONTEXT },
       policy: { ...DEFAULT_POLICY },
@@ -116,7 +136,9 @@ export const useRoboShield = create<RoboShieldState>((set, get) => ({
       riskHistory: seedHistory(),
       totalEvaluated: 0,
       totalBlocked: 0,
-    }),
+      shieldEnabled: true,
+    });
+  },
 
   clearIncidents: () => set({ incidents: [] }),
 }));
