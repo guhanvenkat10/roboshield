@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background-color: #070a12;
+  color: #e6edf6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle animated grain/grid backdrop used by the shell. */
+.bg-shell {
+  background:
+    radial-gradient(60% 50% at 50% -10%, rgba(22, 201, 170, 0.12), transparent 60%),
+    radial-gradient(40% 40% at 90% 10%, rgba(167, 139, 250, 0.08), transparent 60%),
+    #070a12;
+}
+
+.bg-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Thin custom scrollbar for log panels. */
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mono {
+  font-variant-ligatures: none;
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+}
+
+/* Glassy card base reused across the app. */
+.card {
+  background: linear-gradient(180deg, rgba(20, 29, 48, 0.7), rgba(11, 16, 28, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+}
