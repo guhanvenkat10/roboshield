@@ -57,7 +57,7 @@ export function PolicySection() {
                 key={p.key}
                 onClick={() => setPolicy({ [p.key]: !on } as Partial<PolicyConfig>)}
                 className={cn(
-                  "flex items-start justify-between gap-3 rounded-2xl border p-4 text-left transition",
+                  "flex items-start justify-between gap-3 rounded-lg border p-4 text-left transition",
                   on ? "border-signal-500/30 bg-signal-500/[0.05]" : "border-white/8 bg-white/[0.02]"
                 )}
               >
@@ -98,7 +98,7 @@ export function PolicySection() {
                 key={z.id}
                 onClick={() => setContext({ zone: z.id })}
                 className={cn(
-                  "rounded-2xl border p-4 text-left transition",
+                  "rounded-lg border p-4 text-left transition",
                   active ? "border-signal-500/50 bg-signal-500/[0.06]" : "border-white/8 bg-white/[0.02] hover:border-white/20"
                 )}
               >

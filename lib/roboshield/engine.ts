@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // RoboShield policy engine
 //
-// One pure function — evaluateCommand — runs a command through seven firewall
+// One pure function, evaluateCommand, runs a command through seven firewall
 // stages and returns a fully-explained decision. It is framework-agnostic: it has
 // no React, no DOM, no network. That is deliberate. The same function can run in
 // the browser (as it does in this demo), behind a Next.js API route, or on a
@@ -272,7 +272,7 @@ export function evaluateCommand(
     add(acc, {
       stage: "decision",
       code: "safety_stop",
-      detail: "Emergency stop always passes — halting the robot reduces risk.",
+      detail: "Emergency stop always passes, halting the robot reduces risk.",
       weight: 0,
     });
   } else if (acc.hardBlock) {
@@ -336,7 +336,7 @@ function buildTrace(acc: Accumulator, isSafetyStop: boolean): StageTrace[] {
       return { stage, label: STAGE_LABELS[stage], status: "pass", note: "Command intercepted before reaching hardware." };
     }
     if (isSafetyStop) {
-      return { stage, label: STAGE_LABELS[stage], status: "pass", note: "Safety stop — fast-tracked." };
+      return { stage, label: STAGE_LABELS[stage], status: "pass", note: "Safety stop, fast-tracked." };
     }
     const reasons = acc.reasons.filter((r) => r.stage === stage);
     if (reasons.length === 0) {
@@ -386,7 +386,7 @@ function nextStep(decision: Evaluation["decision"]): string {
     case "requires_approval":
       return "Approve from a trusted account if this command is legitimate, otherwise dismiss it.";
     case "blocked":
-      return "Review the incident report. If this was unexpected, your device or account may be compromised — rotate credentials.";
+      return "Review the incident report. If this was unexpected, your device or account may be compromised, rotate credentials.";
   }
 }
 

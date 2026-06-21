@@ -4,7 +4,7 @@
 // Web Serial bridge
 //
 // Connects the RoboShield dashboard (running in Chrome/Edge) directly to the
-// Demo Rover over USB serial — no Node server in between. The same port works
+// Demo Rover over USB serial, no Node server in between. The same port works
 // for an HC-05/HC-06 Bluetooth module once it's paired (it shows up as a serial
 // port to the OS). Everything degrades gracefully when no robot is connected.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -105,7 +105,7 @@ class SerialBridge {
     try {
       await this.writer.write(this.encoder.encode(command.trim() + "\n"));
     } catch {
-      // Port likely yanked — treat as a disconnect.
+      // Port likely yanked, treat as a disconnect.
       this.setConnected(false);
     }
   }

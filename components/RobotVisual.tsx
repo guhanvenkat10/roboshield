@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import type { ShieldStatus } from "@/lib/store";
 
 const STATUS_COLOR: Record<ShieldStatus, string> = {
-  protected: "#38e1c4",
-  threat: "#fb5e5e",
-  lockdown: "#fbbf24",
+  protected: "#bdb6a1",
+  threat: "#ff4a1c",
+  lockdown: "#e0a341",
 };
 
 /**
@@ -78,7 +78,7 @@ export function RobotVisual({
         className="relative z-10 flex flex-col items-center"
       >
         <div
-          className={cn("relative grid h-24 w-24 place-items-center rounded-2xl border")}
+          className={cn("relative grid h-24 w-24 place-items-center rounded-lg border")}
           style={{ borderColor: `${color}55`, background: `${color}12`, boxShadow: `0 0 40px -10px ${color}` }}
         >
           {/* eyes */}

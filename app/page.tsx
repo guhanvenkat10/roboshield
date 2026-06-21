@@ -72,7 +72,7 @@ export default function LandingPage() {
           className="mt-5 max-w-2xl text-lg leading-relaxed text-white/60"
         >
           RoboShield sits between the apps, clouds, and AI agents that send commands and the robot&apos;s
-          actual hardware. Every command is checked first — unsafe movement, audio, recording, remote
+          actual hardware. Every command is checked first, unsafe movement, audio, recording, remote
           control, and AI-generated actions are blocked before a motor ever turns.
         </motion.p>
 
@@ -85,14 +85,14 @@ export default function LandingPage() {
         >
           <Link
             href="/dashboard"
-            className="group inline-flex items-center gap-2 rounded-xl bg-signal-500 px-5 py-3 font-semibold text-ink-950 shadow-glow transition hover:bg-signal-400"
+            className="group inline-flex items-center gap-2 rounded-md bg-signal-500 px-5 py-3 font-semibold text-ink-950 shadow-glow transition hover:bg-signal-400"
           >
             Run the live demo
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
           </Link>
           <Link
             href="/dashboard?tab=pipeline"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/12 bg-white/[0.03] px-5 py-3 font-semibold text-white/80 transition hover:bg-white/[0.06]"
+            className="inline-flex items-center gap-2 rounded-md border border-white/12 bg-white/[0.03] px-5 py-3 font-semibold text-white/80 transition hover:bg-white/[0.06]"
           >
             View command pipeline
           </Link>
@@ -104,14 +104,14 @@ export default function LandingPage() {
           animate="show"
           variants={fade}
           custom={4}
-          className="mt-12 max-w-3xl rounded-2xl border border-signal-500/20 bg-signal-500/[0.06] p-5"
+          className="mt-12 max-w-3xl rounded-lg border border-signal-500/20 bg-signal-500/[0.06] p-5"
         >
           <div className="flex items-start gap-3">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-signal-400" />
             <p className="text-[15px] leading-relaxed text-white/80">
               <span className="font-semibold text-white">The pitch in one line:</span> RoboShield stops
               hacked or AI-controlled devices from becoming moving cameras, speakers, or harassment tools
-              inside people&apos;s homes — without breaking the robot&apos;s real job.
+              inside people&apos;s homes, without breaking the robot&apos;s real job.
             </p>
           </div>
         </motion.div>
@@ -154,7 +154,7 @@ export default function LandingPage() {
           </div>
           <Link
             href="/dashboard?tab=pipeline"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-white/12 px-4 py-2.5 font-semibold text-white/80 transition hover:bg-white/[0.06]"
+            className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/12 px-4 py-2.5 font-semibold text-white/80 transition hover:bg-white/[0.06]"
           >
             See each step <ArrowRight className="h-4 w-4" />
           </Link>

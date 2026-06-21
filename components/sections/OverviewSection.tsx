@@ -36,13 +36,13 @@ export function OverviewSection({ onJump }: { onJump: (tab: any) => void }) {
             <button
               onClick={lockdown}
               disabled={status === "lockdown"}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-warn/40 bg-warn/10 px-3 py-2.5 text-sm font-semibold text-warn transition hover:bg-warn/15 disabled:opacity-40"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-warn/40 bg-warn/10 px-3 py-2.5 text-sm font-semibold text-warn transition hover:bg-warn/15 disabled:opacity-40"
             >
               <Lock className="h-4 w-4" /> Lockdown
             </button>
             <button
               onClick={resetDemo}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/12 px-3 py-2.5 text-sm font-semibold text-white/70 transition hover:bg-white/5"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-white/12 px-3 py-2.5 text-sm font-semibold text-white/70 transition hover:bg-white/5"
             >
               <RotateCcw className="h-4 w-4" /> Reset
             </button>
@@ -70,7 +70,7 @@ export function OverviewSection({ onJump }: { onJump: (tab: any) => void }) {
             <span>Live command risk over time</span>
             {status === "lockdown" && (
               <span className="inline-flex items-center gap-1 text-warn">
-                <ShieldX className="h-3 w-3" /> Isolation mode active — only emergency stop passes
+                <ShieldX className="h-3 w-3" /> Isolation mode active, only emergency stop passes
               </span>
             )}
           </div>
@@ -82,7 +82,7 @@ export function OverviewSection({ onJump }: { onJump: (tab: any) => void }) {
         <Card className="lg:col-span-2">
           <ContextControls />
           <p className="mt-3 text-[11px] leading-relaxed text-white/35">
-            These are simulated sensor inputs. Flip them to stage a situation — e.g. turn on “Person nearby”
+            These are simulated sensor inputs. Flip them to stage a situation, e.g. turn on “Person nearby”
             then try a speaker command in the monitor below. Want guided scenarios?{" "}
             <button onClick={() => onJump("demo")} className="text-signal-400 hover:underline">
               Open the Demo Lab →
@@ -100,7 +100,7 @@ export function OverviewSection({ onJump }: { onJump: (tab: any) => void }) {
 
 function Stat({ label, value, tone }: { label: string; value: number; tone?: "danger" }) {
   return (
-    <div className="rounded-xl border border-white/8 bg-white/[0.02] px-3 py-2 text-center">
+    <div className="rounded-md border border-white/8 bg-white/[0.02] px-3 py-2 text-center">
       <div className={tone === "danger" ? "text-xl font-semibold text-danger" : "text-xl font-semibold text-white"}>
         {value}
       </div>

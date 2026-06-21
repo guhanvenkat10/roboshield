@@ -14,9 +14,9 @@ const serif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "RoboShield — A Behavior Firewall for Robots",
+  title: "RoboShield, A Behavior Firewall for Robots",
   description:
-    "RoboShield is antivirus for the real world. It checks every command before it reaches a robot's motors, speaker, camera, or radio — blocking unsafe movement, audio, recording, remote control, and AI-generated actions.",
+    "RoboShield is antivirus for the real world. It checks every command before it reaches a robot's motors, speaker, camera, or radio, blocking unsafe movement, audio, recording, remote control, and AI-generated actions.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

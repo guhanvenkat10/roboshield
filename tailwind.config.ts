@@ -8,39 +8,41 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Core surface palette — deep slate with a cool security-ops feel.
+        // Warm "paper" surface scale (replaces the old cool navy/slate).
         ink: {
-          950: "#070a12",
-          900: "#0b101c",
-          850: "#0f1626",
-          800: "#141d30",
-          700: "#1c2840",
-          600: "#283655",
+          950: "#0b0a09",
+          900: "#100e0c",
+          850: "#161310",
+          800: "#1d1813",
+          700: "#28211a",
+          600: "#352c22",
         },
-        // Brand accent — cyan/teal "shield" glow.
+        // Brand accent — a single warm "ember". Used sparingly.
         signal: {
-          400: "#38e1c4",
-          500: "#16c9aa",
-          600: "#0fa98e",
+          400: "#ff6a3c",
+          500: "#ff4a1c",
+          600: "#e23c12",
         },
-        // Decision colors.
-        safe: "#36d399",
-        warn: "#fbbf24",
-        danger: "#fb5e5e",
-        rewrite: "#a78bfa",
+        // Semantic decision states, kept warm and restrained (no neon green).
+        safe: "#bdb6a1", // allowed = calm warm stone, not a green light
+        warn: "#e0a341", // caution / lockdown = amber
+        danger: "#ff4a1c", // blocked / threat = ember
+        rewrite: "#c98a5c", // rewritten = clay
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(56,225,196,0.18), 0 0 40px -8px rgba(56,225,196,0.35)",
-        "glow-danger": "0 0 0 1px rgba(251,94,94,0.22), 0 0 40px -8px rgba(251,94,94,0.45)",
-        "glow-warn": "0 0 0 1px rgba(251,191,36,0.22), 0 0 40px -8px rgba(251,191,36,0.4)",
-        card: "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 20px 50px -20px rgba(0,0,0,0.7)",
+        glow: "0 0 0 1px rgba(255,74,28,0.16)",
+        "glow-danger": "0 0 0 1px rgba(255,74,28,0.28)",
+        "glow-warn": "0 0 0 1px rgba(224,163,65,0.28)",
+        card: "0 1px 0 0 rgba(255,255,255,0.03) inset",
       },
       backgroundImage: {
-        grid: "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
+        grid: "linear-gradient(to right, rgba(236,229,215,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(236,229,215,0.05) 1px, transparent 1px)",
       },
       keyframes: {
         "pulse-ring": {

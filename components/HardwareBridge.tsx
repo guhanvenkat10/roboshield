@@ -8,7 +8,7 @@ import { isSerialSupported, serialBridge } from "@/lib/serial";
 import { cn } from "@/lib/utils";
 
 /**
- * Optional hardware panel — but now it really connects. "Connect Robot" opens a
+ * Optional hardware panel, but now it really connects. "Connect Robot" opens a
  * USB (or paired-Bluetooth) serial port via Web Serial; allowed commands are
  * forwarded to the rover and blocked ones become LOCKDOWN. RoboShield is fully
  * functional with nothing plugged in.
@@ -61,11 +61,11 @@ export function HardwareBridge() {
 
       {/* Live telemetry */}
       <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
-        <Tile label="Mode" value={telemetry?.mode ?? "—"} />
-        <Tile label="Distance" value={telemetry ? `${telemetry.dist}cm` : "—"} />
+        <Tile label="Mode" value={telemetry?.mode ?? "··"} />
+        <Tile label="Distance" value={telemetry ? `${telemetry.dist}cm` : "··"} />
         <Tile
           label="Person"
-          value={telemetry ? (telemetry.person ? "Detected" : "Clear") : "—"}
+          value={telemetry ? (telemetry.person ? "Detected" : "Clear") : "··"}
           tone={telemetry?.person ? "danger" : undefined}
         />
       </div>
@@ -74,12 +74,12 @@ export function HardwareBridge() {
       <button
         onClick={() => setUseLiveSensors(!useLiveSensors)}
         className={cn(
-          "mt-2 flex w-full items-center justify-between gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition",
+          "mt-2 flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2 text-xs font-medium transition",
           useLiveSensors && connected
             ? "border-signal-500/30 bg-signal-500/10 text-signal-400"
             : "border-white/10 text-white/50 hover:bg-white/5"
         )}
-        title="When on, the rover's real ultrasonic reading sets 'person nearby' for the firewall — so blocks are driven by hardware, not toggles."
+        title="When on, the rover's real ultrasonic reading sets 'person nearby' for the firewall, so blocks are driven by hardware, not toggles."
       >
         <span className="flex items-center gap-2">
           <Satellite className="h-3.5 w-3.5" />
@@ -90,11 +90,11 @@ export function HardwareBridge() {
         </span>
       </button>
 
-      {/* Shield A/B toggle — the on-stage money switch */}
+      {/* Shield A/B toggle, the on-stage money switch */}
       <button
         onClick={() => setShield(!shieldEnabled)}
         className={cn(
-          "mt-3 flex w-full items-center justify-between gap-2 rounded-xl border px-3 py-2.5 text-sm font-semibold transition",
+          "mt-3 flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2.5 text-sm font-semibold transition",
           shieldEnabled
             ? "border-safe/30 bg-safe/10 text-safe"
             : "border-danger/40 bg-danger/10 text-danger animate-pulse"
@@ -113,14 +113,14 @@ export function HardwareBridge() {
         <button
           onClick={toggleConnect}
           disabled={!supported}
-          className="flex items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[0.03] px-3 py-2.5 text-sm font-medium text-white/80 transition hover:bg-white/[0.06] disabled:opacity-40"
+          className="flex items-center justify-center gap-2 rounded-md border border-white/12 bg-white/[0.03] px-3 py-2.5 text-sm font-medium text-white/80 transition hover:bg-white/[0.06] disabled:opacity-40"
         >
           {connected ? <Plug className="h-4 w-4" /> : <Usb className="h-4 w-4" />}
           {connected ? "Disconnect" : "Connect Robot"}
         </button>
         <button
           onClick={emergencyStop}
-          className="flex items-center justify-center gap-2 rounded-xl border border-danger/40 bg-danger/10 px-3 py-2.5 text-sm font-semibold text-danger transition hover:bg-danger/15"
+          className="flex items-center justify-center gap-2 rounded-md border border-danger/40 bg-danger/10 px-3 py-2.5 text-sm font-semibold text-danger transition hover:bg-danger/15"
         >
           <OctagonX className="h-4 w-4" /> STOP
         </button>

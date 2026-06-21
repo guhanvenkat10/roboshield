@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Intent detection
 //
-// A real attacker (or a careless AI agent) won't send tidy `play_audio` enums —
-// they send freeform text. This module scans raw command text for risky intent
+// A real attacker (or a careless AI agent) won't send tidy `play_audio` enums.
+// They send freeform text. This module scans raw command text for risky intent
 // so that the engine never has to "default unknown commands to allowed".
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -108,8 +108,8 @@ export function detectKeywords(raw: string): KeywordHit[] {
 /**
  * Best-effort classification of freeform text into a normalized ActionType.
  * Used when the caller supplies `action: "unknown"`. Critically, text we cannot
- * confidently classify stays "unknown" — it is NOT optimistically mapped to a
- * benign action — so the engine treats it conservatively.
+ * confidently classify stays "unknown", it is NOT optimistically mapped to a
+ * benign action, so the engine treats it conservatively.
  */
 export function classifyAction(raw: string): ActionType {
   const text = raw.toLowerCase();

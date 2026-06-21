@@ -28,7 +28,7 @@ export function EvaluationResult({ evaluation }: { evaluation: Evaluation }) {
       {/* Verdict header */}
       <div
         className={cn(
-          "rounded-2xl border p-4",
+          "rounded-lg border p-4",
           danger
             ? "border-danger/30 bg-danger/[0.07]"
             : evaluation.decision === "allowed"
@@ -66,7 +66,7 @@ export function EvaluationResult({ evaluation }: { evaluation: Evaluation }) {
             <Cpu className="h-3.5 w-3.5" />
             Reaches hardware:{" "}
             <span className={evaluation.reachesHardware ? "text-safe" : "text-danger"}>
-              {evaluation.reachesHardware ? "Yes" : "No — stopped at the firewall"}
+              {evaluation.reachesHardware ? "Yes" : "No, stopped at the firewall"}
             </span>
           </span>
         </div>
@@ -75,7 +75,7 @@ export function EvaluationResult({ evaluation }: { evaluation: Evaluation }) {
       {/* Reasons */}
       <div>
         <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-white/40">
-          Why — {evaluation.reasons.length} finding{evaluation.reasons.length === 1 ? "" : "s"}
+          Why · {evaluation.reasons.length} finding{evaluation.reasons.length === 1 ? "" : "s"}
         </div>
         <ul className="space-y-1.5">
           {evaluation.reasons.map((r, i) => (

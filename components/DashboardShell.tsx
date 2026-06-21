@@ -95,7 +95,7 @@ export function DashboardShell() {
         </div>
       </header>
 
-      {/* Firewall-bypassed banner — the "unprotected device" half of the A/B demo */}
+      {/* Firewall-bypassed banner, the "unprotected device" half of the A/B demo */}
       {!shieldEnabled && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
@@ -104,7 +104,7 @@ export function DashboardShell() {
         >
           <div className="mx-auto flex max-w-7xl items-center gap-2 px-5 py-2 text-sm font-semibold text-danger">
             <ShieldOff className="h-4 w-4" />
-            Firewall bypassed — commands are reaching the device unfiltered. This is what an unprotected robot does.
+            Firewall bypassed, commands are reaching the device unfiltered. This is what an unprotected robot does.
           </div>
         </motion.div>
       )}

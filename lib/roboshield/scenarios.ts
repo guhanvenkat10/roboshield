@@ -33,7 +33,7 @@ export const SCENARIOS: Scenario[] = [
     id: "normal_movement",
     title: "Normal Movement",
     riskType: "Baseline · safe",
-    proves: "Safe robot behavior still passes — RoboShield is a filter, not a wall.",
+    proves: "Safe robot behavior still passes, RoboShield is a filter, not a wall.",
     presenterLine:
       "Safe commands still pass straight through RoboShield, so the robot keeps doing its real job.",
     expectedDecision: "allowed",
@@ -57,7 +57,7 @@ export const SCENARIOS: Scenario[] = [
     riskType: "AI Sanitizer · Physical DLP",
     proves: "AI-generated commands that combine movement, proximity, and audio are neutralized.",
     presenterLine:
-      "This is the AI-fueled attack — it tells the robot to move toward a person and play a message. RoboShield stops it before the robot acts.",
+      "This is the AI-fueled attack, it tells the robot to move toward a person and play a message. RoboShield stops it before the robot acts.",
     expectedDecision: "blocked",
     command: {
       action: "move_toward_person",
@@ -111,7 +111,7 @@ export const SCENARIOS: Scenario[] = [
     riskType: "Safety override",
     proves: "Safety commands always work, even mid-lockdown.",
     presenterLine:
-      "Safety always wins — stopping the robot reduces risk, so RoboShield passes it instantly.",
+      "Safety always wins, stopping the robot reduces risk, so RoboShield passes it instantly.",
     expectedDecision: "allowed",
     command: { action: "stop_motors", source: "user_app", raw: "Stop all motors now", isAiGenerated: false },
     contextOverrides: ctx({ zone: "night", isNight: true, personNearby: true }),

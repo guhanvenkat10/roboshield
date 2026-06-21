@@ -22,7 +22,7 @@ function ctx(over: Partial<RobotContext> = {}): RobotContext {
   return { ...DEFAULT_CONTEXT, ...over };
 }
 
-console.log("RoboShield engine — policy tests\n");
+console.log("RoboShield engine, policy tests\n");
 
 // Required judge-proof cases.
 let e = evaluateCommand(cmd("go to the bathroom"), ctx());

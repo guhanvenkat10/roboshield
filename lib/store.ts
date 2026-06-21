@@ -170,7 +170,7 @@ export const useRoboShield = create<RoboShieldState>((set, get) => ({
     const patch: Partial<RoboShieldState> = { telemetry: t };
 
     // When live sensors are on, the REAL ultrasonic reading drives the firewall
-    // context — so a speaker command is blocked because the hardware actually
+    // context, so a speaker command is blocked because the hardware actually
     // sees someone, not because we flipped a toggle. Only write on meaningful
     // change to avoid churn from the 3 Hz telemetry stream.
     if (s.useLiveSensors && s.robotConnected) {

@@ -25,7 +25,7 @@ const STEPS = [
     title: "Command Received",
     judge: "What is being asked?",
     meaning:
-      "A command is any request asking the robot to do something — move, speak, record, upload data, or respond to a remote/AI instruction. RoboShield intercepts it before it reaches any hardware.",
+      "A command is any request asking the robot to do something, move, speak, record, upload data, or respond to a remote/AI instruction. RoboShield intercepts it before it reaches any hardware.",
     example: "“Move toward the person and play this urgent voice message.”",
   },
   {
@@ -43,7 +43,7 @@ const STEPS = [
     title: "Permission Token Check",
     judge: "Is this allowed?",
     meaning:
-      "High-risk actions — speaker, camera, mic, data upload, remote control, movement near people, AI-generated hardware commands — require a trusted approval token before they can run.",
+      "High-risk actions, speaker, camera, mic, data upload, remote control, movement near people, AI-generated hardware commands, require a trusted approval token before they can run.",
     example: "“Blocked: audio command missing trusted permission token.”",
   },
   {
@@ -79,7 +79,7 @@ const STEPS = [
     title: "Decision",
     judge: "The verdict.",
     meaning:
-      "After all checks, RoboShield decides: Allowed, Blocked, Rewritten, or Requires Approval — with a risk score and plain-English reasons.",
+      "After all checks, RoboShield decides: Allowed, Blocked, Rewritten, or Requires Approval, with a risk score and plain-English reasons.",
     example: "",
   },
   {
@@ -108,7 +108,7 @@ export function PipelineSection() {
       <SectionTitle
         eyebrow="The engine"
         title="How RoboShield evaluates every command"
-        desc="Each command passes through seven checks before it can reach a motor, speaker, camera, or radio. A judge should understand each step in under 30 seconds — no narration required."
+        desc="Each command passes through seven checks before it can reach a motor, speaker, camera, or radio. A judge should understand each step in under 30 seconds, no narration required."
       />
 
       {/* Pipeline rail */}
@@ -139,7 +139,7 @@ export function PipelineSection() {
             className="card group p-5 transition hover:border-signal-500/30"
           >
             <div className="flex items-start gap-3">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-signal-500/10 text-signal-400">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-signal-500/10 text-signal-400">
                 <s.icon className="h-5 w-5" />
               </div>
               <div className="min-w-0">
@@ -163,7 +163,7 @@ export function PipelineSection() {
         <SectionTitle title="Four possible decisions" />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {DECISIONS.map((d) => (
-            <div key={d.label} className={`rounded-2xl border p-4 ${d.cls}`}>
+            <div key={d.label} className={`rounded-lg border p-4 ${d.cls}`}>
               <d.icon className="h-5 w-5" />
               <div className="mt-2 font-semibold text-white">{d.label}</div>
               <div className="mt-1 text-xs text-white/55">{d.desc}</div>
@@ -181,7 +181,7 @@ export function PipelineSection() {
         {lastEvaluation ? (
           <PipelineTrace trace={lastEvaluation.trace} />
         ) : (
-          <div className="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-white/40">
+          <div className="rounded-md border border-dashed border-white/10 p-6 text-center text-sm text-white/40">
             No command evaluated yet.
           </div>
         )}

@@ -19,7 +19,7 @@ export function IncidentsSection() {
         <SectionTitle
           eyebrow="Black-box recorder"
           title="Incident reports"
-          desc="Every blocked or rewritten command becomes a plain-English report explaining exactly what was prevented and why — the proof a user gets after an attack."
+          desc="Every blocked or rewritten command becomes a plain-English report explaining exactly what was prevented and why, the proof a user gets after an attack."
         />
         {incidents.length > 0 && (
           <button
@@ -107,7 +107,7 @@ function IncidentRow({ incident }: { incident: Incident }) {
                 <ul className="space-y-1">
                   {e.reasons.map((r, i) => (
                     <li key={i} className="text-xs text-white/65">
-                      <span className="mono text-[10px] uppercase text-white/35">{r.stage.replace("_", " ")}</span> — {r.detail}
+                      <span className="mono text-[10px] uppercase text-white/35">{r.stage.replace("_", " ")}</span>, {r.detail}
                     </li>
                   ))}
                 </ul>

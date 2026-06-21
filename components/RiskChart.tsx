@@ -24,7 +24,7 @@ export function RiskChart({ data, height = 120 }: { data: Point[]; height?: numb
     return { line, area, last: data[data.length - 1].v };
   }, [data, height]);
 
-  const stroke = last >= 70 ? "#fb5e5e" : last >= 40 ? "#fbbf24" : "#38e1c4";
+  const stroke = last >= 70 ? "#ff4a1c" : last >= 40 ? "#e0a341" : "#bdb6a1";
 
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full" preserveAspectRatio="none">

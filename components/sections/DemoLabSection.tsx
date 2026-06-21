@@ -63,7 +63,7 @@ export function DemoLabSection({ onJump }: { onJump: (tab: any) => void }) {
               transition={{ delay: i * 0.04 }}
               onClick={() => run(s)}
               className={cn(
-                "w-full rounded-2xl border p-4 text-left transition",
+                "w-full rounded-lg border p-4 text-left transition",
                 active?.id === s.id
                   ? "border-signal-500/50 bg-signal-500/[0.06]"
                   : "border-white/8 bg-white/[0.02] hover:border-white/20"
@@ -92,7 +92,7 @@ export function DemoLabSection({ onJump }: { onJump: (tab: any) => void }) {
             {result && active ? (
               <>
                 <div className="mb-3 text-xs text-white/45">
-                  Result for <span className="font-semibold text-white/80">{active.title}</span> — raw command:{" "}
+                  Result for <span className="font-semibold text-white/80">{active.title}</span>, raw command:{" "}
                   <span className="mono text-white/55">“{active.command.raw}”</span>
                 </div>
                 <EvaluationResult evaluation={result} />

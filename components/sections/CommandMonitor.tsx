@@ -29,10 +29,10 @@ const SOURCES: { value: CommandSource; label: string }[] = [
 ];
 
 const FIELD_HELP = [
-  ["Action", "The normalized behavior the robot is asked to perform — e.g. play_audio, move_forward, activate_camera, stop_motors."],
+  ["Action", "The normalized behavior the robot is asked to perform, e.g. play_audio, move_forward, activate_camera, stop_motors."],
   ["Source", "Where the command came from: User App, Cloud API, Remote Account, AI Agent, or Unknown. Provenance changes trust."],
   ["Raw Command", "The original text instruction before RoboShield classifies and evaluates it."],
-  ["Permission Token", "Trusted approval for high-risk actions — parent/admin approval, a signed API token, or a verified account."],
+  ["Permission Token", "Trusted approval for high-risk actions, parent/admin approval, a signed API token, or a verified account."],
 ] as const;
 
 const QUICK = ["go to the bathroom", "follow the person and play a message", "turn on the camera", "patrol forward", "stop motors"];
@@ -74,7 +74,7 @@ export function CommandMonitor() {
       </div>
 
       {showHelp && (
-        <div className="mb-4 grid gap-2 rounded-xl border border-white/8 bg-white/[0.02] p-3 sm:grid-cols-2">
+        <div className="mb-4 grid gap-2 rounded-md border border-white/8 bg-white/[0.02] p-3 sm:grid-cols-2">
           {FIELD_HELP.map(([k, v]) => (
             <div key={k} className="text-xs">
               <span className="font-semibold text-signal-400">{k}: </span>
@@ -91,11 +91,11 @@ export function CommandMonitor() {
           onChange={(e) => setRaw(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
           placeholder="Type a command, e.g. ‘move toward the person and play a message’"
-          className="flex-1 rounded-xl border border-white/10 bg-ink-900/60 px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-signal-500/50 focus:outline-none"
+          className="flex-1 rounded-md border border-white/10 bg-ink-900/60 px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-signal-500/50 focus:outline-none"
         />
         <button
           onClick={() => send()}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-signal-500 px-4 py-2.5 text-sm font-semibold text-ink-950 transition hover:bg-signal-400"
+          className="inline-flex items-center justify-center gap-2 rounded-md bg-signal-500 px-4 py-2.5 text-sm font-semibold text-ink-950 transition hover:bg-signal-400"
         >
           <Send className="h-4 w-4" /> Evaluate
         </button>
@@ -108,7 +108,7 @@ export function CommandMonitor() {
         <button
           onClick={() => setAi((v) => !v)}
           className={cn(
-            "flex items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium transition",
+            "flex items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition",
             ai ? "border-rewrite/40 bg-rewrite/10 text-rewrite" : "border-white/10 bg-ink-900/60 text-white/55 hover:bg-white/5"
           )}
         >
@@ -137,7 +137,7 @@ export function CommandMonitor() {
         {shown ? (
           <EvaluationResult evaluation={shown} />
         ) : (
-          <div className="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-white/40">
+          <div className="rounded-md border border-dashed border-white/10 p-6 text-center text-sm text-white/40">
             Send a command to see how RoboShield evaluates it.
           </div>
         )}
@@ -158,7 +158,7 @@ function Select({
   options: { value: string; label: string }[];
 }) {
   return (
-    <label className="flex items-center gap-2 rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2 text-sm">
+    <label className="flex items-center gap-2 rounded-md border border-white/10 bg-ink-900/60 px-3 py-2 text-sm">
       <span className="text-xs text-white/40">{label}</span>
       <select
         value={value}

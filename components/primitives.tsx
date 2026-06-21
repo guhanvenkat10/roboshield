@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils";
 export function Logo({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center gap-2.5", className)}>
-      <div className="relative grid h-9 w-9 place-items-center rounded-xl bg-signal-500/15 text-signal-400 shadow-glow">
+      <div className="relative grid h-9 w-9 place-items-center rounded-md bg-signal-500/15 text-signal-400 shadow-glow">
         <ShieldCheck className="h-5 w-5" />
       </div>
       <div className="leading-tight">
-        <div className="text-[15px] font-semibold tracking-tight text-white">RoboShield</div>
-        <div className="text-[10px] uppercase tracking-[0.18em] text-white/40">Behavior Firewall</div>
+        <div className="font-display text-[16px] font-bold tracking-tight text-white">RoboShield</div>
+        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-white/40">Behavior Firewall</div>
       </div>
     </div>
   );
@@ -80,7 +80,7 @@ export function SectionTitle({
       {eyebrow && (
         <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-signal-400/80">{eyebrow}</div>
       )}
-      <h2 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">{title}</h2>
+      <h2 className="font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">{title}</h2>
       {desc && <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-white/55">{desc}</p>}
     </div>
   );
